@@ -5,9 +5,6 @@ import {
     GET_PRODUCT,
     GET_PRODUCT_FAILURE,
     GET_PRODUCT_SUCCESS,
-    ADD_PRODUCT,
-    ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_FAILURE,
     DELETE_PRODUCT,
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAILURE
@@ -66,29 +63,6 @@ export function getProductFailure(error) {
         error
     }
 }
-
-export function addProduct(product) {
-    return {
-        type: ADD_PRODUCT,
-        product
-    }
-}
-
-export function addProductSuccess(product) {
-    return {
-        type: ADD_PRODUCT_SUCCESS,
-        product
-    }
-}
-
-export function addProductFailure(error) {
-    return {
-        type: ADD_PRODUCT_FAILURE,
-        error
-    }
-}
-
-
 export function deleteProduct(id) {
     console.log('acttion creator - delete '+ id);
     return {

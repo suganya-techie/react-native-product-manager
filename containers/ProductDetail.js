@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
-
+import * as productDetailActionCreators from "../actionCreators/productDetail";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 let URI = "http://172.16.100.241:4000";
 
 class ProductDetail extends React.Component {
@@ -17,12 +19,12 @@ class ProductDetail extends React.Component {
   componentDidMount() {
     this.setState({ isLoading: true });
     let { id } = this.props.navigation.state.params;
-    console.log(id);
-    fetch(`${URI}/products/${id}`)
-      .then(r => r.json())
-      .then(product =>
-        this.setState({ product, isLoading: false })
-      );
+    // fetch(`${URI}/products/${id}`)
+    //   .then(r => r.json())
+    //   .then(product =>
+    //     this.setState({ product, isLoading: false })
+    //   );
+    this.props.actions.getProductDetail(id);
   }
 
   renderProduct() {
@@ -68,4 +70,19 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductDetail;
+function mapStateToProps(state) {
+  return {
+    productDetail: state.productDetailState.productDetail,
+    isLoading: state.productDetailState.isLoading,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(productDetailActionCreators, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ProductDetail
+);

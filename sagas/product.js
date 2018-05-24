@@ -2,9 +2,12 @@ import {
     put,
     takeLatest
 } from "redux-saga/effects";
-import * as actionCreators from "../actionCreators/product"
+import * as actionCreators from "../actionCreators/product";
+import * as addProductActionCreators from "../actionCreators/addProduct";
+import * as detailActionCreators from "../actionCreators/productDetail";
+
 import {
-    GET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT
+    GET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT, GET_PRODUCT_DETAIL
 } from "../actionTypes/product";
 
 import * as searchActionCreators from "../actionCreators/search"
@@ -56,17 +59,27 @@ function* deleteProduct(action) {
 
 function* addProduct(action) {
     try {
-        console.log(action, 'add prdocut');
-        let product = yield fetch(`${URI}\products`, {
+        let product = yield fetch(`${URI}/products`, {
             body: JSON.stringify(action.product),
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
         }).then(r => r.json());
-        yield put(actionCreators.addProductSuccess(product))
+        yield put(addProductActionCreators.addProductSuccess(product))
     } catch (error) {
-        yield put(actionCreators.addProductFailure(error))
+        yield put(addProductActionCreators.addProductFailure(error))
+    }
+}
+
+function* getProductDetail(action) {
+    try {
+
+        console.log(`${URI}/products/${action.id}`, 'detail url');
+        let productDetails = yield fetch(`${URI}/products/${action.id}`).then(r => r.json());
+        yield put(detailActionCreators.getProductDetailSuccess(productDetails))
+    } catch (error) {
+        yield put(detailActionCreators.getProductDetailFailure(error))
     }
 }
 
@@ -75,4 +88,5 @@ export function* productWatchers() {
     yield takeLatest(SEARCH_PRODUCT, searchProduct)
     yield takeLatest(DELETE_PRODUCT, deleteProduct)
     yield takeLatest(ADD_PRODUCT, addProduct)
+    yield takeLatest(GET_PRODUCT_DETAIL, getProductDetail)
 }

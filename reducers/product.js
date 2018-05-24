@@ -5,9 +5,6 @@ import {
     GET_PRODUCT,
     GET_PRODUCT_SUCCESS,
     GET_PRODUCT_FAILURE,
-    ADD_PRODUCT,
-    ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_FAILURE,
     DELETE_PRODUCT,
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_FAILURE
@@ -42,17 +39,7 @@ export default (prevState = {
             return { ...prevState,
                 isLoading: false,
                 product: action.product
-            }
-        case ADD_PRODUCT:
-            return { ...prevState,
-                isLoading: true,
-                product: action.product
-            }
-        case ADD_PRODUCT_SUCCESS:
-            return { ...prevState,
-                isLoading: false,
-                product: action.product
-            }
+            }        
         case DELETE_PRODUCT:
             return { ...prevState,
                 isLoading: true
@@ -67,7 +54,6 @@ export default (prevState = {
             }
         case GET_PRODUCTS_FAILURE:
         case GET_PRODUCT_FAILURE:
-        case ADD_PRODUCT_FAILURE:
         case DELETE_PRODUCT_FAILURE:
             return { ...prevState,
                 isLoading: false,
